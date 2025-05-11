@@ -1,6 +1,5 @@
 import {TodoProvider} from "./contexts"
 import { useState, useEffect } from "react";
-import "./App.css";
 import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
 
@@ -26,11 +25,18 @@ function App() {
   };
 
   useEffect(() => {
+    fetch('http://localhost:3000/todos')
+      .then(response => response.json())
+      .then(data => setTodos(data))
+      .catch(error => console.error('Error fetching todos:', error));
+  }, []);  
+
+  /*useEffect(() => {
     const todos = localStorage.getItem("todos")
     if (todos) {
       setTodos(JSON.parse(todos))
     }
-  }, [])  //agr hum dependencies array pass nhi krenge toh useEffect har baar run hoga jb bhi component render hoga, and get item from local storage baar baar fetch hoga. 
+  }, [])*/  //agr hum dependencies array pass nhi krenge toh useEffect har baar run hoga jb bhi component render hoga, and get item from local storage baar baar fetch hoga. 
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos))
